@@ -42,11 +42,13 @@
 
 .app__headerImage {
   background-color: #fff;
-  padding: 20px;
   object-fit: contain;
+  width: 50px;
 }
 
 .app__signup {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  font-size: 20px;
 }

@@ -3,6 +3,9 @@ import "./Post.css";
 import { Avatar } from "@mui/material";
 
 const Post = ({ imageUrl, username, caption }) => {
+  console.log("Username:", username);
+  console.log("ImageUrl:", imageUrl);
+  console.log("Caption:", caption);
   return (
     <>
       <div className='post'>
@@ -14,10 +17,7 @@ const Post = ({ imageUrl, username, caption }) => {
           />
           <h3>{username}</h3>
         </div>
-        {/* Header => Avatar + username */}
         <img className='post__image' src={imageUrl} alt='' />
-        {/* Image */}
-        {/* Username + caption */}
         <h4 className='post__text'>
           <strong style={{ margin: " 0px 2px" }}>{username}</strong>: {caption}
         </h4>
