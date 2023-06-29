@@ -1,22 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Post from "./Post";
+import { db } from "./firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
 function App() {
-  const [posts, setposts] = useState([
-    {
-      username: "Kushagra",
-      imageUrl:
-        "https://cdn-media-2.freecodecamp.org/w1280/5f9c9bd4740569d1a4ca2e24.jpg",
-      caption: "My Attitude Mah Life",
-    },
-    {
-      username: "Yashu",
-      imageUrl:
-        "https://cdn-media-2.freecodecamp.org/w1280/5f9c9bd4740569d1a4ca2e24.jpg",
-      caption: "My Attitude Mah Life",
-    },
-  ]);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "posts"), (snapshot) => {
+      setPosts(snapshot.docs.map((doc) => doc.data()));
+    });
+
+    return () => unsubscribe();
+  }, []);
   return (
     <>
       <div className='app'>
