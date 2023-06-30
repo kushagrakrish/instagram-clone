@@ -8,6 +8,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 const style = {
@@ -33,7 +34,7 @@ function App() {
     password: "",
   });
   const [user, setUser] = useState(null);
-
+  const [openSignIn, setOpenSignIn] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -44,6 +45,7 @@ function App() {
 
   const singUp = (e) => {
     e.preventDefault();
+    handleClose();
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, formValues.email, formValues.password)
       .then((userCredential) => {
@@ -58,6 +60,21 @@ function App() {
       .catch((error) => {
         alert(error.message);
       });
+  };
+
+  const signIn = (e) => {
+    e.preventDefault();
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, formValues.email, formValues.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+    setOpenSignIn(false);
   };
 
   useEffect(() => {
@@ -86,6 +103,7 @@ function App() {
 
     return () => unsubscribe();
   }, []);
+
   return (
     <>
       <div className='app'>
@@ -131,6 +149,38 @@ function App() {
             </form>
           </Box>
         </Modal>
+
+        <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
+          <Box sx={{ ...style }}>
+            <form className='app__signup'>
+              <center>
+                <img
+                  className='app__headerImage'
+                  src='https://lh3.googleusercontent.com/2sREY-8UpjmaLDCTztldQf6u2RGUtuyf6VT5iyX3z53JS4TdvfQlX-rNChXKgpBYMw'
+                  alt=''
+                />
+              </center>
+              <Input
+                name='email'
+                placeholder='email'
+                type='text'
+                value={formValues.email}
+                onChange={handleChange}
+              />
+              <Input
+                name='password'
+                placeholder='password'
+                type='password'
+                value={formValues.password}
+                onChange={handleChange}
+              />
+              <Button type='submit' onClick={signIn}>
+                Sign In
+              </Button>
+            </form>
+          </Box>
+        </Modal>
+
         <div className='app__header'>
           <img
             style={{ width: "40px", borderRadius: "999px" }}
@@ -139,7 +189,16 @@ function App() {
             alt=''
           />
         </div>
-        <Button onClick={handleOpen}>Signup</Button>
+        {user ? (
+          <div className='app__logoutContainer'>
+            <Button onClick={() => auth.signOut()}>Logout</Button>
+          </div>
+        ) : (
+          <div className='app__loginContainer'>
+            <Button onClick={() => setOpen(true)}>Sign Up</Button>
+            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+          </div>
+        )}
         <h1>Hello Kushagra we are building Instagram clone</h1>
         {/* Header */}
         {posts?.map(({ post, id }) => (
