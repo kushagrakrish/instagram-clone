@@ -10,6 +10,7 @@ import {
   updateProfile,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import ImageUpload from "./ImageUpload";
 
 const style = {
   position: "absolute",
@@ -107,6 +108,15 @@ function App() {
   return (
     <>
       <div className='app'>
+        {/* I want to have a  */}
+        {/* Caption Input */}
+        {/* File picker */}
+        {/* Post button */}
+        {user?.displayName ? (
+          <ImageUpload username={user.displayName} />
+        ) : (
+          <h3>Sorry you need to login to Upload</h3>
+        )}
         <Modal
           open={open}
           onClose={handleClose}

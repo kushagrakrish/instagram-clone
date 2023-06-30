@@ -3,9 +3,6 @@ import "./Post.css";
 import { Avatar } from "@mui/material";
 
 const Post = ({ imageUrl, username, caption }) => {
-  console.log("Username:", username);
-  console.log("ImageUrl:", imageUrl);
-  console.log("Caption:", caption);
   return (
     <>
       <div className='post'>
